@@ -1,10 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+
+<div class=" mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+
+
+
+    <form >
+        <div id = "addresscontent" class="col-md-4-*   my-2" style="width: 35%; margin-left: 30%; height: 1000px; transition-property: width;transition-duration: 0.5s;">
+            <div class="d-md-flex flex-column flex-md-equal w-100 my-md-3 pl-md-3">
+
+
+                <div class="shadow-lg bg-info mr-md-3  pt-md-3 px-md-2 text-center text-white overflow-hidden" style="margin-bottom:2%; border-radius: 21px 21px 0px 0px; ">
+                    <div class="p-2">
+                        <h4><b>Signin</b></h4>
+
+                    </div>
+
+                </div>
+                <div class="shadow-lg  mr-md-3  pt-md-3 px-md-2 text-center text-white overflow-hidden" style=" margin-bottom:2%; border-radius: 21px 21px 21px 21px; height: 500px;">
+                    <div class="p-2">
+                        <label><h6>Fill in this form to Signin to your account.</h6></label>
+                    </div>
+                    <div class="p-2">
+                        <input type="text" class="form-control input-lg" placeholder="Enter Email" name="email" required><br>
+                    </div>
+                    <div class="p-2">
+                        <input type="password" class="form-control input-lg" placeholder="Enter Password" name="password" required><br>
+                    </div>
+                    <label>
+                        <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+                    </label><br>
+                    <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p><br>
+                    <input type="hidden" name="_csrf" value="{{ csrftoken }}">
+                    <div class="p-2">
+                        <button  class="btn btn-success btn-lg btn-block signupbtn">Next</button>
+                    </div>
+
+                    <div class="p-2" style="position: relative;">
+                        <a href="/auth/facebook" class="btn btn-primary btn-lg " style="left: 10px; position: absolute"><i class="fab fa-facebook-square"></i> Facebook</a>
+                        <a href="/auth/google" class="btn btn-warning btn-lg " style="left: 175px; position: absolute"><i class="fab fa-google-plus"></i> Google +</a>
+                        <a href="/auth/twitter" class="btn btn-danger btn-lg disabled" style="right: 10px; position: absolute"><i class="fab fa-twitter"></i> Twitter</a>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </form>
+
+    <div class="row show-hide-message ">
+    <div class="alert alert-success">{{register.message}}</div>
+    </div>
+
+
+</div>

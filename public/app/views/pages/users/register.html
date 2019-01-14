@@ -1,10 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+
+
+<div class=" mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+
+    <form ng-submit="register.registerUser();">
+        <div id = "addresscontent" class="col-md-4-*   my-2" style="width: 35%; margin-left: 30%; height: 1000px; transition-property: width;transition-duration: 0.5s;">
+            <div class="d-md-flex flex-column flex-md-equal w-100 my-md-3 pl-md-3">
+
+
+                <div class="shadow-lg bg-info mr-md-3  pt-md-3 px-md-2 text-center text-white overflow-hidden" style=" margin-bottom:2%; border-radius: 21px 21px 0px 0px; ">
+                    <div class="p-2">
+                        <h4><b>Sign Up</b></h4>
+
+                    </div>
+
+                </div>
+                <div class="shadow-lg  mr-md-3  pt-md-3 px-md-2 text-center text-white overflow-hidden" style=" margin-bottom:2%; border-radius: 21px 21px 21px 21px; ">
+                    <div class="p-2">
+                        <label><h6>Fill in this form to create your account.</h6></label>
+                    </div>
+                    <div class="p-2">
+                        <input type="text" class="form-control input-lg" placeholder="Enter Username" name="username" required ng-model="register.registerData.username"><br>
+                    </div>
+                    <div class="p-2">
+                    <input type="text" class="form-control input-lg" placeholder="Enter Email" name="email" required ng-model="register.registerData.email"><br>
+                </div>
+                    <div class="p-2">
+                        <input type="password" class="form-control input-lg" placeholder="Enter Password" name="password" required ng-model="register.registerData.password"><br>
+                    </div>
+                    <label>
+                        <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+                    </label><br>
+                    <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p><br>
+                    <input type="hidden" name="_csrf" value="{{ csrftoken }}">
+                    <div class="p-2">
+                        <button  class="btn btn-success btn-lg btn-block signupbtn">Next</button>
+                    </div>
+                    <div class="p-2 show-hide-message" ng-show="register.message">
+                        <div class="alert alert-success">{{register.message}}</div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </form>
+
+
+
+</div>
+</div>
