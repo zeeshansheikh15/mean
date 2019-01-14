@@ -8,13 +8,13 @@ var router          = express.Router();
 var appRoutes       = require('./app/routes/api')(router);
 var path            = require('path');
 
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
 app.use('/api', appRoutes);
 
-mongoose.connect('mongodb://localhost:27017/mean', function (err) {
+mongoose.connect('mongodb://zee1993:zee1993@ds257314.mlab.com:57314/zeesite', function (err) {
     if(err){
         console.log('nope');
     }else{
