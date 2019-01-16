@@ -1,9 +1,8 @@
-
 <div class=" mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
 
 
 
-    <form >
+    <form ng-submit="main.loginuser();">
         <div id = "addresscontent" class="col-md-4-*   my-2" style="width: 35%; margin-left: 30%; height: 1000px; transition-property: width;transition-duration: 0.5s;">
             <div class="d-md-flex flex-column flex-md-equal w-100 my-md-3 pl-md-3">
 
@@ -20,10 +19,10 @@
                         <label><h6>Fill in this form to Signin to your account.</h6></label>
                     </div>
                     <div class="p-2">
-                        <input type="text" class="form-control input-lg" placeholder="Enter Email" name="email" required><br>
+                        <input type="text" class="form-control input-lg" placeholder="Enter Email" name="email" required ng-model="main.logindata.email"><br>
                     </div>
                     <div class="p-2">
-                        <input type="password" class="form-control input-lg" placeholder="Enter Password" name="password" required><br>
+                        <input type="password" class="form-control input-lg" placeholder="Enter Password" name="password" required ng-model="main.logindata.password"><br>
                     </div>
                     <label>
                         <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
@@ -33,7 +32,9 @@
                     <div class="p-2">
                         <button  class="btn btn-success btn-lg btn-block signupbtn">Next</button>
                     </div>
-
+                    <div class="p-2 show-hide-message" ng-show="main.message">
+                        <div class="alert alert-success">{{main.message}}</div>
+                    </div>
                     <div class="p-2" style="position: relative;">
                         <a href="/auth/facebook" class="btn btn-primary btn-lg " style="left: 10px; position: absolute"><i class="fab fa-facebook-square"></i> Facebook</a>
                         <a href="/auth/google" class="btn btn-warning btn-lg " style="left: 175px; position: absolute"><i class="fab fa-google-plus"></i> Google +</a>
@@ -48,7 +49,7 @@
     </form>
 
     <div class="row show-hide-message ">
-    <div class="alert alert-success">{{register.message}}</div>
+        <div class="alert alert-success">{{register.message}}</div>
     </div>
 
 

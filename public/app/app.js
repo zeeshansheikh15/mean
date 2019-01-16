@@ -1,1 +1,1 @@
-angular.module('userApp', ['appRoutes', 'userControllers']);
+angular.module('userApp', ['appRoutes','mainCtrl', 'userControllers','userServices','ngAnimate']);
