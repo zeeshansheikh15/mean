@@ -1,9 +1,9 @@
-angular.module('userControllers', [])
+angular.module('userControllers', ['validateServices'])
 
 .controller('registerCtrl', function ($http, $location, $timeout) {
 
     var app = this;
-
+    console.log('testin  ');
     this.registerUser = function (registerData) {
         $http.post('/api/users', this.registerData).then(function (response) {
            app.message = response.data.message;
@@ -14,4 +14,11 @@ angular.module('userControllers', [])
            }
         });
     };
+})
+
+.controller('facebookCtrl', function ($routeParams, validation) {
+
+    validation.facebook($routeParams.token);
+
+
 });

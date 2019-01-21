@@ -8,7 +8,7 @@ angular.module('appRoutes', ['ngRoute'])
             templateUrl: 'app/views/pages/home.html'
         })
 
-        .when('/about', {
+        .when('/profile', {
             templateUrl: 'app/views/pages/about.html'
         })
 
@@ -22,6 +22,17 @@ angular.module('appRoutes', ['ngRoute'])
         })
         .when('/logout', {
             templateUrl: 'app/views/pages/users/loggedout.html'
+        })
+        .when('/main/:token', {
+            templateUrl: 'app/views/pages/users/main.html',
+            controller : 'facebookCtrl',
+            controllerAs : 'facebook'
+        })
+
+        .when('/main', {
+            templateUrl: 'app/views/pages/users/main.html',
+            controller : 'facebookCtrl',
+            controllerAs : 'facebook'
         })
 
         .otherwise({ redirectTo: '/'});

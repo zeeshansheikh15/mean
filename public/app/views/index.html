@@ -4,7 +4,7 @@
     <base href="/">
     <title>Zee</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel='stylesheet' href='/assets/css/style.css' />
+    <link rel='stylesheet' href='/assets/css/style2.css' />
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.32/angular.min.js"></script>
     <script src="assets/js/angular-route.js"></script>
@@ -12,6 +12,7 @@
     <script src="app/routes.js"></script>
     <script src="app/controllers/userCtrl.js"></script>
     <script src="app/controllers/mainCtrl.js"></script>
+    <script src="app/services/authServices.js"></script>
     <script src="app/services/userServices.js"></script>
     <script src="assets/js/angular-animate.js"></script>
 
@@ -23,7 +24,7 @@
     </style>
 
 </head>
-<body ng-app="userApp" ng-controller="maincontroller as main">
+<body ng-app="userApp" ng-controller="maincontroller as main" ng-show="main.loadhtml" ng-cloak>
 
 <<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap py-1 shadow">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">        Zeesite</a>
@@ -32,7 +33,9 @@
         <li class="nav-item text-nowrap">
             <a class="nav-link" href="" ng-click="main.logout();">Sign out</a>
         </li>
+
     </ul>
+    <a class="navbar-brand " href="#" > {{main.username}}</a>
 </nav>
 
 
@@ -49,16 +52,20 @@
 
         </div>
         <div class="col-6 col-md">
-            <h5><a class="text-muted" href="#/about">About</a></h5>
+            <h5><a class="text-muted" href="#/profile">About</a></h5>
 
         </div>
         <div class="col-6 col-md">
-            <h5><a class="text-muted" href="#/register">Signup</a></h5>
+            <h5><a class="text-muted" href="/main">main</a></h5>
+        </div>
+        <div class="col-6 col-md">
+            <h5><a class="text-muted" href="#/register" ng-show="!main.loggedin">Signup</a></h5>
 
         </div>
         <div class="col-6 col-md">
-            <h5><a class="text-muted" href="#/login">Signin</a></h5>
+            <h5><a class="text-muted" href="#/login"  ng-show="!main.loggedin">Signin</a></h5>
         </div>
+
     </div>
 </footer>
 <script

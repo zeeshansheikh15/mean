@@ -38,14 +38,28 @@ module.exports =function(router){
                         res.json({message: 'Invalid Password'});
                     } else {
                         var jwtoken = jwt.sign({ user:user.username, email: user.email }, secret, { expiresIn: '1h'});
-                        res.json({valid: true, message: 'Welcome!!!', token: jwtoken})
+
+                         res.json({valid: true, message: 'Welcome!!!', token: jwtoken, user : user})
                     }
                 }
             });
         }
     });
 
+    router.post('/getuser/:token', function (req, res) {
+        var datoken = req.params.token;
+        if(datoken){
+            var decoded = jwt.verify(datoken, secret);
+            res.send(decoded);
 
+        }else{
+            res.json({success: false, message: 'no token found'});
+        }
+    });
+
+    router.get('/main', function (req, res) {
+        res.render('app/views/pages/main.html', { title: 'website' });
+    });
 
     return router;
 }
