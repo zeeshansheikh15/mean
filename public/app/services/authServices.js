@@ -35,7 +35,7 @@ angular.module('validateServices', [])
             }
         };
 
-        validationFactory.facebook = function (token) {
+        validationFactory.social = function (token) {
             loginToken.setToken(token);
         }
 

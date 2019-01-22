@@ -14,11 +14,14 @@ angular.module('mainCtrl',['validateServices'])
              // });
 
              validation.getuserdet().then(function (response) {
-                 console.log('mmmmmmmmmmmmmmmmmm>>>>>>>>>>>>>>>>>>>');
-                 console.log(response.data.user);
+                 console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+                 console.log(response);
                  app.username = response.data.user;
                  app.email = response.data.email;
-                 app.password = response.data.password;
+                 app.id = response.data.id;
+                 app.photo = response.data.photo;
+                 console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+                 console.log(app.photo);
              });
 
              app.loggedin = true;
@@ -57,6 +60,11 @@ angular.module('mainCtrl',['validateServices'])
 
     this.twitter = function () {
         $window.location = $window.location.protocol + '//' + $window.location.host + '/auth/twitter';
+
+    };
+
+    this.google = function () {
+        $window.location = $window.location.protocol + '//' + $window.location.host + '/auth/google';
 
     };
 

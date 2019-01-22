@@ -31,11 +31,11 @@
 <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="" ng-click="main.logout();">Sign out</a>
+            <a ng-show="main.loggedin" class="nav-link" href="" ng-click="main.logout(); ">Sign out</a>
         </li>
 
     </ul>
-    <a class="navbar-brand " href="#" > {{main.username}}</a>
+    <a ng-show="main.loggedin" class="btn btn-success btn-md " href="/main" > {{main.username}}</a>
 </nav>
 
 
@@ -55,9 +55,7 @@
             <h5><a class="text-muted" href="#/profile">About</a></h5>
 
         </div>
-        <div class="col-6 col-md">
-            <h5><a class="text-muted" href="/main">main</a></h5>
-        </div>
+
         <div class="col-6 col-md">
             <h5><a class="text-muted" href="#/register" ng-show="!main.loggedin">Signup</a></h5>
 

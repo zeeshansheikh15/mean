@@ -15,10 +15,7 @@ module.exports = function (app, passport) {
 
 
     passport.serializeUser(function (user, done) {
-        jwtoken = jwt.sign({ user:user.username, email: user.email }, secret, { expiresIn: '1h'});
-        // userdetails = ({id : userdet.id, name : userdet.name, token : jwtoken});
-        // iduser = userdetails.id;
-        //
+        jwtoken = jwt.sign({ user:user.username, email: user.email, id: user.id, photo: user.photo }, secret, { expiresIn: '1h'});
         done(null, user);
     });
 
@@ -35,8 +32,8 @@ module.exports = function (app, passport) {
             profileFields: ['id', 'displayName', 'photos', 'email']
         },
         function(accessToken, refreshToken, profile, done) {
-                userdet = ({id : profile._json.id, name : profile._json.name});
-                User.findOne({email : profile._json.email}).select('username password email').exec(function(err, user){
+                console.log(profile.photos[0].value);
+                User.findOne({email : profile._json.email}).select('id username password email photo').exec(function(err, user){
                     if(err)
                         return done(err);
                     if(user)
@@ -45,6 +42,8 @@ module.exports = function (app, passport) {
                         var newUser = new User();
                         newUser.username =  profile._json.name;
                         newUser.email = profile.emails[0].value;
+                        newUser.id    = profile._json.id;
+                        newUser.photo    = profile.photos[0].value;
                         newUser.save(function(err){
                             if(err)
                                 throw err;
@@ -59,11 +58,12 @@ module.exports = function (app, passport) {
     passport.use(new TwitterStrategy({
             consumerKey: 'mYgPrFDJGewOgFL8xYAgOy3qf',
             consumerSecret: 'ZTzAmoK4gyIHpzWVSABh7SkG6S6mmIi4EeN37v0OMaCigUEiPK',
-            callbackURL: "http://localhost:8080/auth/twitter/callback",
+            callbackURL: "https://zeesite.herokuapp.com/auth/twitter/callback",
             userProfileURL: "https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true"
         },
         function(token, tokenSecret, profile, done) {
-            User.findOne({id : profile._json.id}).select('id username password email').exec(function(err, user){
+        console.log(profile);
+            User.findOne({id : profile._json.id}).select('id username password email photo').exec(function(err, user){
                 if(err)
                     return done(err);
                 if(user)
@@ -72,6 +72,7 @@ module.exports = function (app, passport) {
                     var newUser = new User();
                     newUser.username =  profile._json.name;
                     newUser.id = profile._json.id;
+                    newUser.photo    = profile.photos[0].value;
                     newUser.save(function(err){
                         if(err)
                             throw err;
@@ -83,20 +84,65 @@ module.exports = function (app, passport) {
     ));
 
 
+    passport.use(new GoogleStrategy({
+            clientID: '399897326194-6smve18c4jmoisj9kaealtake82qrp1p.apps.googleusercontent.com',
+            clientSecret: 'WrpYmN79Ve6Nvnnzpnw_YDSw',
+            callbackURL: "https://zeesite.herokuapp.com/auth/google/callback"
+        },
+        function(token, tokenSecret, profile, done) {
+            console.log(profile);
+            User.findOne({email : profile.emails[0].value}).select('id username password email photo').exec(function(err, user){
+                if(err)
+                    return done(err);
+                if(user)
+                    return done(null, user);
+                else {
+                    var newUser = new User();
+                    newUser.username =  profile._json.displayName;
+                    newUser.id = profile._json.id;
+                    newUser.photo    = profile.photos[0].value;
+                    newUser.email = profile.emails[0].value;
+                    newUser.save(function(err){
+                        if(err)
+                            throw err;
+                        return done(null, newUser);
+                    })
+                }
+            });
+        }
+    ));
+
+
+
+
+
+
+
+    app.get('/auth/google', passport.authenticate('google', { scope: ['email','profile'] }));
+
+    app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }),
+        function(req, res) {
+            res.redirect('/loggedin/'+jwtoken);
+        });
+
+
+
+
     app.get('/auth/twitter', passport.authenticate('twitter'));
 
     app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function (req, res) {
 
-        res.redirect('/loggedin/');
+        res.redirect('/loggedin/'+jwtoken);
     });
 
 
+
+    app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
 
     app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function (req, res) {
 
        res.redirect('/loggedin/'+ jwtoken);
     });
-    app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
 
     return passport;
 }

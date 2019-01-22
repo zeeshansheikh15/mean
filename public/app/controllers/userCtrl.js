@@ -16,10 +16,10 @@ angular.module('userControllers', ['validateServices'])
     };
 })
 
-.controller('facebookCtrl', function ($routeParams, validation, $window, $timeout, $location) {
+.controller('socialCtrl', function ($routeParams, validation, $window, $timeout, $location) {
     var app = this;
     console.log($routeParams.token);
-    validation.facebook($routeParams.token)
+    validation.social($routeParams.token)
     $timeout(function () {
         $location.path('/main');
         app.message = '';

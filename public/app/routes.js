@@ -25,8 +25,8 @@ angular.module('appRoutes', ['ngRoute'])
         })
         .when('/loggedin/:token', {
             templateUrl: 'app/views/pages/users/loggedin.html',
-            controller : 'facebookCtrl',
-            controllerAs : 'facebook'
+            controller : 'socialCtrl',
+            controllerAs : 'social'
         })
 
         .when('/main', {
