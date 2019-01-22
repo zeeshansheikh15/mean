@@ -5,7 +5,17 @@ angular.module('validateServices', [])
 
         validationFactory.validate = function (reg) {
             return $http.post('/api/login',reg).then(function (res) {
+
                 loginToken.setToken(res.data.token);
+                return res;
+            });
+        };
+
+
+        validationFactory.getUser = function () {
+            usern = $window.localStorage.getItem('user');
+            console.log(usern);
+            return $http.post('/api/getuser/'+usern).then(function (res) {
                 return res;
             });
         };
@@ -20,22 +30,21 @@ angular.module('validateServices', [])
 
         validationFactory.facebook = function (token) {
             $window.localStorage.setItem('user', token);
-
-
             loginToken.setToken(token);
         }
 
-        validationFactory.getUser = function (req) {
-            if(loginToken.getToken()){
-                var token  = $window.localStorage.getItem('user');
-                console.log('token passed'+token);
-                return $http.post('/api/getuser/:'+token).then(function (res) {
-                    return res;
-                });
-            }else{
-                $q.reject({message: 'user not found'});
-            }
-        };
+        // validationFactory.getUser = function () {
+        //     if(loginToken.getToken()){
+        //         var token  = $window.localStorage.getItem('user');
+        //         console.log('token passed'+token);
+        //         return $http.post('/api/getuser/:'+token).then(function (res) {
+        //
+        //             return res;
+        //         });
+        //     }else{
+        //         $q.reject({message: 'user not found'});
+        //     }
+        // };
 
         validationFactory.logout =function () {
             loginToken.removeToken();

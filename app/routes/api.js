@@ -29,7 +29,7 @@ module.exports =function(router){
             User.findOne({email: req.body.email}).select('email username password').exec(function (err, user) {
                 if (err) {
                     res.json({ message: error});
-                    }
+                }
                 if (!user) {
                     res.json({ message: 'User not found'});
                 } else if (user) {
@@ -39,28 +39,33 @@ module.exports =function(router){
                     } else {
                         var jwtoken = jwt.sign({ user:user.username, email: user.email }, secret, { expiresIn: '1h'});
 
-                         res.json({valid: true, message: 'Welcome!!!', token: jwtoken, user : user})
+                        res.json({valid: true, message: 'Welcome!!!', token: jwtoken, user : user})
                     }
                 }
             });
         }
     });
 
-    router.post('/getuser/:token', function (req, res) {
-        var user = req.params.token;
-        User.findOne({username : user}).select('email username password').exec(function (err, user) {
-            if (err) {
-                res.json({ message: error});
-            }
-            if (!user) {
-                res.json({ message: 'User not found'});
-            } else if (user) {
 
-                    res.json({valid: true, message: 'Welcome!!!', user : user})
+    router.post('/getuser/:usern', function (req, res) {
+        console.log(req.params.usern);
+        if(req.params.usern == null){
+              res.json({message:'Email and password not provided'});
+        }else {
+            User.findOne({username: req.params.usern}).select('email username password').exec(function (err, user) {
+                if (err) {
+                    res.json({ message: error});
                 }
+                if (!user) {
+                    res.json({ message: 'User not found', username: req.params.usern });
+                } else if (user) {
+                     res.json({valid: true, message: 'Welcome!!!',user : user})
+                    }
 
-        });
+            });
+        }
     });
+
 
 
     return router;

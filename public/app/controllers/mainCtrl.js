@@ -5,10 +5,14 @@ angular.module('mainCtrl',['validateServices'])
     app.loadhtml = false;
      $rootScope.$on('$routeChangeStart', function (event) {
          if (validation.isLoggedIn()) {
-             validation.getUser().then(function (res) {
-                 console.log("post get user "+res);
+
+             validation.getUser().then(function (response) {
+                 console.log(response);
+                 app.username = response.data.user.username;
+                 app.email = response.data.user.email;
+                 app.password = response.data.user.password;
              });
-             app.username = $window.localStorage.getItem('user');
+
              app.loggedin = true;
              app.loadhtml = true;
          } else {
@@ -19,10 +23,14 @@ angular.module('mainCtrl',['validateServices'])
          }
      });
 
+
+
+
+
     this.loginuser = function (logindata) {
         validation.validate(this.logindata).then(function (response) {
             app.message = response.data.message;
-            console.log(response.data);
+            console.log(response);
             if(response.data.valid) {
                 app.username = response.data.user.username;
                 $window.localStorage.setItem('user',response.data.user.username);
