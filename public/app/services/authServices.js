@@ -5,19 +5,26 @@ angular.module('validateServices', [])
 
         validationFactory.validate = function (reg) {
             return $http.post('/api/login',reg).then(function (res) {
-
                 loginToken.setToken(res.data.token);
                 return res;
             });
         };
 
 
-        validationFactory.getUser = function () {
-            usern = $window.localStorage.getItem('user');
-            console.log(usern);
-            return $http.post('/api/getuser/'+usern).then(function (res) {
-                return res;
-            });
+        // validationFactory.getUser = function () {
+        //     usern = $window.localStorage.getItem('user');
+        //     console.log(usern);
+        //     return $http.post('/api/getuser/'+usern).then(function (res) {
+        //         return res;
+        //     });
+        // };
+
+        validationFactory.getuserdet = function () {
+            if (loginToken.getToken()) {
+                return $http.post('/api/getuserdet'); // Return user's data
+            } else {
+                $q.reject({ message: 'User has no token' }); // Reject if no token exists
+            }
         };
 
         validationFactory.isLoggedIn = function () {
@@ -29,7 +36,6 @@ angular.module('validateServices', [])
         };
 
         validationFactory.facebook = function (token) {
-            $window.localStorage.setItem('user', token);
             loginToken.setToken(token);
         }
 
@@ -67,4 +73,19 @@ angular.module('validateServices', [])
         }
 
         return loginTokenfactory;
+    })
+
+    .factory('AuthInterceptors', function(loginToken) {
+        var authInterceptorsFactory = {};
+
+        authInterceptorsFactory.request = function(config) {
+            var token = loginToken.getToken();
+            if (token) config.headers['x-access-token'] = token;
+
+            return config;
+        };
+
+        return authInterceptorsFactory;
+
     });
+

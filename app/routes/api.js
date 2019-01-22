@@ -46,25 +46,47 @@ module.exports =function(router){
         }
     });
 
+    router.use(function(req, res, next) {
+        var token = req.body.token || req.body.query || req.headers['x-access-token'];
 
-    router.post('/getuser/:usern', function (req, res) {
-        console.log(req.params.usern);
-        if(req.params.usern == null){
-              res.json({message:'Email and password not provided'});
-        }else {
-            User.findOne({username: req.params.usern}).select('email username password').exec(function (err, user) {
+        if (token) {
+            jwt.verify(token, secret, function(err, decoded) {
                 if (err) {
-                    res.json({ message: error});
+                    res.json({ success: false, message: 'Token invalid' });
+                } else {
+                    req.decoded = decoded;
+                    next();
                 }
-                if (!user) {
-                    res.json({ message: 'User not found', username: req.params.usern });
-                } else if (user) {
-                     res.json({valid: true, message: 'Welcome!!!',user : user})
-                    }
-
             });
+        } else {
+            res.json({ success: false, message: 'No token provided' });
         }
     });
+
+    router.post('/getuserdet', function(req, res) {
+        res.send(req.decoded);
+    });
+
+    //
+    //
+    // router.post('/getuser/:usern', function (req, res) {
+    //     console.log(req.params.usern);
+    //     if(req.params.usern == null){
+    //           res.json({message:'Email and password not provided'});
+    //     }else {
+    //         User.findOne({username: req.params.usern}).select('email username password').exec(function (err, user) {
+    //             if (err) {
+    //                 res.json({ message: error});
+    //             }
+    //             if (!user) {
+    //                 res.json({ message: 'User not found', username: req.params.usern });
+    //             } else if (user) {
+    //                  res.json({valid: true, message: 'Welcome!!!',user : user})
+    //                 }
+    //
+    //         });
+    //     }
+    // });
 
 
 

@@ -5,12 +5,20 @@ angular.module('mainCtrl',['validateServices'])
     app.loadhtml = false;
      $rootScope.$on('$routeChangeStart', function (event) {
          if (validation.isLoggedIn()) {
+             //
+             // validation.getUser().then(function (response) {
+             //     console.log(response);
+             //     app.username = response.data.user.username;
+             //     app.email = response.data.user.email;
+             //     app.password = response.data.user.password;
+             // });
 
-             validation.getUser().then(function (response) {
-                 console.log(response);
-                 app.username = response.data.user.username;
-                 app.email = response.data.user.email;
-                 app.password = response.data.user.password;
+             validation.getuserdet().then(function (response) {
+                 console.log('mmmmmmmmmmmmmmmmmm>>>>>>>>>>>>>>>>>>>');
+                 console.log(response.data.user);
+                 app.username = response.data.user;
+                 app.email = response.data.email;
+                 app.password = response.data.password;
              });
 
              app.loggedin = true;
@@ -32,8 +40,6 @@ angular.module('mainCtrl',['validateServices'])
             app.message = response.data.message;
             console.log(response);
             if(response.data.valid) {
-                app.username = response.data.user.username;
-                $window.localStorage.setItem('user',response.data.user.username);
                 $timeout(function () {
                     $location.path('/profile');
                     app.message = '';
@@ -44,7 +50,13 @@ angular.module('mainCtrl',['validateServices'])
 
 
     this.checkuser = function () {
-            $window.location = $window.location.protocol + '//' + $window.location.host + '/auth/facebook';
+        $window.location = $window.location.protocol + '//' + $window.location.host + '/auth/facebook';
+
+    };
+
+
+    this.twitter = function () {
+        $window.location = $window.location.protocol + '//' + $window.location.host + '/auth/twitter';
 
     };
 
@@ -52,7 +64,6 @@ angular.module('mainCtrl',['validateServices'])
      validation.logout();
        $location.path('/logout');
      app.message = "User logged out successfully";
-       $window.localStorage.removeItem('user');
        $timeout(function () {
            app.message = '';
            $location.path('/');
