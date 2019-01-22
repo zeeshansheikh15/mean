@@ -47,19 +47,21 @@ module.exports =function(router){
     });
 
     router.post('/getuser/:token', function (req, res) {
-        var datoken = req.params.token;
-        if(datoken){
-            var decoded = jwt.verify(datoken, secret);
-            res.send(decoded);
+        var user = req.params.token;
+        User.findOne({username : user}).select('email username password').exec(function (err, user) {
+            if (err) {
+                res.json({ message: error});
+            }
+            if (!user) {
+                res.json({ message: 'User not found'});
+            } else if (user) {
 
-        }else{
-            res.json({success: false, message: 'no token found'});
-        }
+                    res.json({valid: true, message: 'Welcome!!!', user : user})
+                }
+
+        });
     });
 
-    router.get('/main', function (req, res) {
-        res.render('app/views/pages/main.html', { title: 'website' });
-    });
 
     return router;
 }

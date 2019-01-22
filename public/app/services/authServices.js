@@ -1,6 +1,6 @@
 angular.module('validateServices', [])
 
-    .factory('validation', function ($http, loginToken) {
+    .factory('validation', function ($http, loginToken, $window, $timeout) {
         var validationFactory = {};
 
         validationFactory.validate = function (reg) {
@@ -9,6 +9,7 @@ angular.module('validateServices', [])
                 return res;
             });
         };
+
         validationFactory.isLoggedIn = function () {
             if(loginToken.getToken()){
                 return true;
@@ -18,14 +19,19 @@ angular.module('validateServices', [])
         };
 
         validationFactory.facebook = function (token) {
+            $window.localStorage.setItem('user', token);
+
+
             loginToken.setToken(token);
         }
 
         validationFactory.getUser = function (req) {
             if(loginToken.getToken()){
-                var token  = loginToken.getToken();
+                var token  = $window.localStorage.getItem('user');
                 console.log('token passed'+token);
-                return $http.post('/api/getuser/:'+token);
+                return $http.post('/api/getuser/:'+token).then(function (res) {
+                    return res;
+                });
             }else{
                 $q.reject({message: 'user not found'});
             }

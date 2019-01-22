@@ -23,16 +23,14 @@ angular.module('appRoutes', ['ngRoute'])
         .when('/logout', {
             templateUrl: 'app/views/pages/users/loggedout.html'
         })
-        .when('/main/:token', {
-            templateUrl: 'app/views/pages/users/main.html',
+        .when('/loggedin/:token', {
+            templateUrl: 'app/views/pages/users/loggedin.html',
             controller : 'facebookCtrl',
             controllerAs : 'facebook'
         })
 
         .when('/main', {
-            templateUrl: 'app/views/pages/users/main.html',
-            controller : 'facebookCtrl',
-            controllerAs : 'facebook'
+            templateUrl: 'app/views/pages/users/main.html'
         })
 
         .otherwise({ redirectTo: '/'});

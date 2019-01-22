@@ -6,7 +6,7 @@ angular.module('mainCtrl',['validateServices'])
      $rootScope.$on('$routeChangeStart', function (event) {
          if (validation.isLoggedIn()) {
              validation.getUser().then(function (res) {
-                 console.log(res);
+                 console.log("post get user "+res);
              });
              app.username = $window.localStorage.getItem('user');
              app.loggedin = true;
@@ -19,22 +19,28 @@ angular.module('mainCtrl',['validateServices'])
          }
      });
 
-   this.loginuser = function (logindata) {
-      validation.validate(this.logindata).then(function (response) {
-           app.message = response.data.message;
-           console.log(response.data);
-          app.username = response.data.user.username;
-           if(response.data.valid) {
-               $window.localStorage.setItem('user',response.data.user.username);
-               $timeout(function () {
-                   $location.path('/profile');
-                   app.message = '';
-               }, 1000);
-           }
-       });
-   };
+    this.loginuser = function (logindata) {
+        validation.validate(this.logindata).then(function (response) {
+            app.message = response.data.message;
+            console.log(response.data);
+            if(response.data.valid) {
+                app.username = response.data.user.username;
+                $window.localStorage.setItem('user',response.data.user.username);
+                $timeout(function () {
+                    $location.path('/profile');
+                    app.message = '';
+                }, 1000);
+            }
+        });
+    };
 
-   this.logout = function () {
+
+    this.checkuser = function () {
+            $window.location = $window.location.protocol + '//' + $window.location.host + '/auth/facebook';
+
+    };
+
+    this.logout = function () {
      validation.logout();
        $location.path('/logout');
      app.message = "User logged out successfully";

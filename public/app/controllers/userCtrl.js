@@ -16,9 +16,14 @@ angular.module('userControllers', ['validateServices'])
     };
 })
 
-.controller('facebookCtrl', function ($routeParams, validation) {
-
-    validation.facebook($routeParams.token);
+.controller('facebookCtrl', function ($routeParams, validation, $window, $timeout, $location) {
+    var app = this;
+    console.log($routeParams.token);
+    validation.facebook($routeParams.token)
+    $timeout(function () {
+        $location.path('/main');
+        app.message = '';
+    }, 1000);
 
 
 });
