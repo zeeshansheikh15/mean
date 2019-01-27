@@ -16,12 +16,13 @@ angular.module('mainCtrl',['validateServices'])
              validation.getuserdet().then(function (response) {
                  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
                  console.log(response);
+                 if(!response.data.success){
+                     validation.logout();
+                 }
                  app.username = response.data.user;
                  app.email = response.data.email;
                  app.id = response.data.id;
                  app.photo = response.data.photo;
-                 console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-                 console.log(app.photo);
              });
 
              app.loggedin = true;
@@ -29,7 +30,7 @@ angular.module('mainCtrl',['validateServices'])
          } else {
              console.log('logged out');
              app.loggedin = false;
-             app.username = '';
+             app.username = null;
              app.loadhtml = true;
          }
      });
@@ -44,7 +45,7 @@ angular.module('mainCtrl',['validateServices'])
             console.log(response);
             if(response.data.valid) {
                 $timeout(function () {
-                    $location.path('/profile');
+                    $location.path('/main');
                     app.message = '';
                 }, 1000);
             }
@@ -69,15 +70,14 @@ angular.module('mainCtrl',['validateServices'])
     };
 
     this.logout = function () {
-     validation.logout();
-       $location.path('/logout');
-     app.message = "User logged out successfully";
-       $timeout(function () {
-           app.message = '';
-           $location.path('/');
-       }, 1000);
-   };
-
+        validation.logout();
+        $location.path('/logout');
+        app.message = "User logged out successfully";
+        $timeout(function () {
+            app.message = '';
+            $location.path('/');
+        }, 1000);
+    };
 
 
 });

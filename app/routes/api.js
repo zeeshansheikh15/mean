@@ -13,8 +13,10 @@ module.exports =function(router){
         res.json({ message:'Username, email and password not provided'});
     }else {
         user.save(function (err) {
+
             if (err) {
-                res.json({message:'Username or Email already exists'});
+                res.json({message: 'Username or Email already exists', error: err});
+                console.log(err.message);
             } else {
                 res.json({created: true, message:'user created'});
             }
@@ -88,7 +90,22 @@ module.exports =function(router){
     //     }
     // });
 
-
+    router.post('/weather', function (req, res) {
+        var city = req.body.city;
+        var url = 'http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}';
+        request(url, function (err, response, body) {
+            if(err){
+                res.json({weather: null, error: 'Error, please try again'});
+            } else {
+                var weather = JSON.parse(body)
+                if(weather.main == undefined){
+                    res.json({weather: null, error: 'Error, please try again'});
+                } else {
+                    res.json({weather: weather, error: null});
+                }
+            }
+        });
+    })
 
     return router;
 }
