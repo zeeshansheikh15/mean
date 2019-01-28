@@ -13,10 +13,24 @@ module.exports =function(router){
         res.json({ message:'Username, email and password not provided'});
     }else {
         user.save(function (err) {
-
             if (err) {
-                res.json({message: 'Username or Email already exists', error: err});
-                console.log(err.message);
+                console.log(err);
+                    if(err.errors){
+                        if(err.errors.username){
+                            res.json({message: err.errors.username.message});
+                        }else
+                        if(err.errors.email){
+                            res.json({message: err.errors.email.message});
+                        }else
+                        if(err.errors.password){
+                            res.json({message: err.errors.password.message});
+                        }
+                        else {
+                            res.json({message: 'User already registered'});
+                        }
+                    }else{
+                        res.json({message:'User already registered'});
+                    }
             } else {
                 res.json({created: true, message:'user created'});
             }

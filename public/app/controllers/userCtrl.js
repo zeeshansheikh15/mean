@@ -6,11 +6,7 @@ angular.module('userControllers', ['validateServices'])
     console.log('testin  ');
     this.registerUser = function (registerData) {
         $http.post('/api/users', this.registerData).then(function (response) {
-           if(response.data.error.message){
-               app.message = response.data.error.message;
-           }else{
                app.message = response.data.message;
-           }
            console.log(response);
            if(response.data.created) {
                $timeout(function () {
