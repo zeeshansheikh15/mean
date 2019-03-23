@@ -85,8 +85,8 @@ module.exports = function (app, passport) {
 
 
     passport.use(new GoogleStrategy({
-            clientID: '399897326194-6smve18c4jmoisj9kaealtake82qrp1p.apps.googleusercontent.com',
-            clientSecret: 'WrpYmN79Ve6Nvnnzpnw_YDSw',
+            clientID: '134355234813-e1k526h5it4k79jk14mli9qrhmpvaduc.apps.googleusercontent.com',
+            clientSecret: 'sZ6Le_BqbbFole7r6WAjAR6C',
             callbackURL: "https://zeesite.herokuapp.com/auth/google/callback"
         },
         function(token, tokenSecret, profile, done) {
