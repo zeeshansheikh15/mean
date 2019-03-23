@@ -16,9 +16,9 @@ angular.module('mainCtrl',['validateServices'])
              validation.getuserdet().then(function (response) {
                  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
                  console.log(response);
-                 if(!response.data.success){
-                     validation.logout();
-                 }
+                 // if(!response.data.success){
+                 //     validation.logout();
+                 // }
                  app.username = response.data.user;
                  app.email = response.data.email;
                  app.id = response.data.id;

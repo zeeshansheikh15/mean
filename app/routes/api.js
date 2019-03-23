@@ -104,22 +104,22 @@ module.exports =function(router){
     //     }
     // });
 
-    router.post('/weather', function (req, res) {
-        var city = req.body.city;
-        var url = 'http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}';
-        request(url, function (err, response, body) {
-            if(err){
-                res.json({weather: null, error: 'Error, please try again'});
-            } else {
-                var weather = JSON.parse(body)
-                if(weather.main == undefined){
-                    res.json({weather: null, error: 'Error, please try again'});
-                } else {
-                    res.json({weather: weather, error: null});
-                }
-            }
-        });
-    })
+    // router.post('/weather', function (req, res) {
+    //     var city = req.body.city;
+    //     var url = 'http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}';
+    //     request(url, function (err, response, body) {
+    //         if(err){
+    //             res.json({weather: null, error: 'Error, please try again'});
+    //         } else {
+    //             var weather = JSON.parse(body)
+    //             if(weather.main == undefined){
+    //                 res.json({weather: null, error: 'Error, please try again'});
+    //             } else {
+    //                 res.json({weather: weather, error: null});
+    //             }
+    //         }
+    //     });
+    // })
 
     return router;
 }
